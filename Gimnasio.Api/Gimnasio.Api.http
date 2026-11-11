@@ -1,0 +1,86 @@
+@host = http://localhost:5102
+
+### ---------- PLANES ----------
+
+### 200 - Listar planes (filtros opcionales: activo, precioMax)
+GET {{host}}/api/planes?activo=true&precioMax=300
+
+### 200 - Plan por id (incluye CantidadSocios)
+GET {{host}}/api/planes/1
+
+### 404 - Plan inexistente
+GET {{host}}/api/planes/999
+
+### 200 - Ruta anidada: socios de un plan
+GET {{host}}/api/planes/4/socios
+
+### 201 - Crear plan
+POST {{host}}/api/planes
+Content-Type: application/json
+
+{ "nombre": "Semestral", "precio": 499.90, "duracionMeses": 6, "activo": true }
+
+### 409 - Nombre de plan repetido
+POST {{host}}/api/planes
+Content-Type: application/json
+
+{ "nombre": "Trimestral", "precio": 200, "duracionMeses": 3 }
+
+### 400 - Datos inválidos
+POST {{host}}/api/planes
+Content-Type: application/json
+
+{ "nombre": "X", "precio": 0, "duracionMeses": 40 }
+
+### 409 - Desactivar un plan con socios
+PUT {{host}}/api/planes/1
+Content-Type: application/json
+
+{ "nombre": "Mensual Básico", "precio": 89.90, "duracionMeses": 1, "activo": false }
+
+### 409 - Eliminar un plan con socios
+DELETE {{host}}/api/planes/1
+
+### ---------- SOCIOS ----------
+
+### 200 - Listar socios con filtros
+GET {{host}}/api/socios?planId=4&edadMax=25
+
+### 200 - Socio por id (devuelve el nombre del plan)
+GET {{host}}/api/socios/1
+
+### 201 - Inscribir socio
+POST {{host}}/api/socios
+Content-Type: application/json
+
+{ "nombres": "Andrea Flores Ccori", "dni": "76543210", "email": "andrea.flores@mail.com", "edad": 24, "planId": 2 }
+
+### 409 - DNI repetido
+POST {{host}}/api/socios
+Content-Type: application/json
+
+{ "nombres": "Otro Socio", "dni": "45781236", "edad": 30, "planId": 1 }
+
+### 409 - Plan inactivo
+POST {{host}}/api/socios
+Content-Type: application/json
+
+{ "nombres": "Nuevo Socio", "dni": "70000001", "edad": 30, "planId": 5 }
+
+### 400 - Plan inexistente
+POST {{host}}/api/socios
+Content-Type: application/json
+
+{ "nombres": "Nuevo Socio", "dni": "70000002", "edad": 30, "planId": 999 }
+
+### 204 - Actualizar socio
+PUT {{host}}/api/socios/6
+Content-Type: application/json
+
+{ "nombres": "Valeria Torres Ríos", "dni": "74125963", "email": "valeria.t@mail.com", "edad": 27, "planId": 1 }
+
+### 204 - Eliminar socio (usar el id creado arriba)
+DELETE {{host}}/api/socios/7
+
+### 404 - Eliminar socio inexistente
+DELETE {{host}}/api/socios/999

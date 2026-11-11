@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Gimnasio.Api/Gimnasio.Api.csproj" />
+  <Project Path="Gimnasio.Datos/Gimnasio.Datos.csproj" />
+  <Project Path="Gimnasio.Entidades/Gimnasio.Entidades.csproj" />
+  <Project Path="Gimnasio.Negocio/Gimnasio.Negocio.csproj" />
+</Solution>
